@@ -5,6 +5,11 @@
 }:
 {
   options.hostSpec = {
+    hostname = lib.mkOption {
+      description = "The machine hostname";
+      type = lib.types.str;
+      default = "default";
+    };
     system = lib.mkOption {
       description = "The system type: 'linux' or 'darwin'";
       type = lib.types.enum [ "linux" "darwin" ];

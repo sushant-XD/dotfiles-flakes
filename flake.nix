@@ -27,7 +27,7 @@
           extraSpecialArgs = {
             inherit inputs lib;
             hostSpec = {
-              inherit system isWork;
+              inherit system isWork hostname;
             };
           };
           modules = [
@@ -47,41 +47,45 @@
     in
     {
       homeConfigurations = {
-        # Fedora personal computer - Linux
-        # Usage: home-manager switch --flake .#fedora
-        fedora = mkHomeConfig {
+        # Personal computer: wingman
+        # Usage: nix run github:nix-community/home-manager/master -- switch -b backup --flake .#wingman
+        wingman = mkHomeConfig {
           system = "x86_64-linux";
-          hostname = "fedora";
-          username = "wingman";  # Change this to your username
+          hostname = "wingman";
+          username = "wingman";
           isWork = false;
         };
 
-        # macOS work laptop
-        # Usage: home-manager switch --flake .#work-mac
-        work-mac = mkHomeConfig {
-          system = "aarch64-darwin";
-          hostname = "work-mac";
-          username = "YOUR_USERNAME";  # Change this to your username
-          isWork = true;
+        # Personal computer: sushant
+        # Usage: nix run github:nix-community/home-manager/master -- switch -b backup --flake .#sushant
+        sushant = mkHomeConfig {
+          system = "x86_64-linux";
+          hostname = "sushant";
+          username = "sushant";
+          isWork = false;
         };
+
+        # Compatibility aliases
+        fedora = self.homeConfigurations.wingman;
+        work-mac = self.homeConfigurations.sushant;
       };
 
       # Apps for easy activation
       apps = {
-        x86_64-linux.fedora = {
+        x86_64-linux.wingman = {
           type = "app";
-          program = "${self.homeConfigurations.fedora.activationPackage}/activate";
+          program = "${self.homeConfigurations.wingman.activationPackage}/activate";
         };
-        aarch64-darwin.work-mac = {
+        x86_64-linux.sushant = {
           type = "app";
-          program = "${self.homeConfigurations.work-mac.activationPackage}/activate";
+          program = "${self.homeConfigurations.sushant.activationPackage}/activate";
         };
       };
 
       # Default packages for direct use
       packages = {
-        x86_64-linux.fedora = self.homeConfigurations.fedora.activationPackage;
-        aarch64-darwin.work-mac = self.homeConfigurations.work-mac.activationPackage;
+        x86_64-linux.wingman = self.homeConfigurations.wingman.activationPackage;
+        x86_64-linux.sushant = self.homeConfigurations.sushant.activationPackage;
       };
     };
 }

@@ -1,6 +1,6 @@
 # Dotfiles - Home Manager Configuration
 
-Simple Home Manager configuration for Linux (Fedora) and macOS with:
+Simple Home Manager configuration for multiple computers with:
 - **Neovim** - Modern text editor
 - **Alacritty** - Terminal emulator  
 - **Zsh** - Shell with oh-my-zsh
@@ -24,26 +24,27 @@ git clone <this-repo-url> ~/dotfiles
 cd ~/dotfiles
 ```
 
-#### 2. Update your username in `flake.nix`
-Edit the `flake.nix` file and replace `YOUR_USERNAME` with your actual username in both configurations:
+#### 2. Available machine profiles
 
-**For Fedora (Linux):**
+Use the profile that matches each computer:
+
+**wingman machine:**
 ```nix
-fedora = mkHomeConfig {
+wingman = mkHomeConfig {
   system = "x86_64-linux";
-  hostname = "fedora";
-  username = "YOUR_USERNAME";  # ← Change this
+  hostname = "wingman";
+  username = "wingman";
   isWork = false;
 };
 ```
 
-**For macOS (Work):**
+**sushant machine:**
 ```nix
-work-mac = mkHomeConfig {
-  system = "aarch64-darwin";
-  hostname = "work-mac";
-  username = "YOUR_USERNAME";  # ← Change this
-  isWork = true;
+sushant = mkHomeConfig {
+  system = "x86_64-linux";
+  hostname = "sushant";
+  username = "sushant";
+  isWork = false;
 };
 ```
 
@@ -58,14 +59,14 @@ programs.git = {
 
 #### 4. Apply the configuration
 
-**For Linux (Fedora):**
+**For wingman machine:**
 ```bash
-home-manager switch --flake .#fedora
+home-manager switch --flake .#wingman
 ```
 
-**For macOS (Work):**
+**For sushant machine:**
 ```bash
-home-manager switch --flake .#work-mac
+home-manager switch --flake .#sushant
 ```
 
 ## Configuration Structure
@@ -80,7 +81,10 @@ dotfiles/
 │   │   ├── default.nix    # Main home configuration
 │   │   ├── linux.nix      # Linux-specific settings
 │   │   ├── darwin.nix     # macOS-specific settings
-│   │   └── work.nix       # Work-specific settings (macOS only)
+│   │   ├── work.nix       # Optional work-specific settings
+│   │   └── hosts/         # Per-host overrides
+│   │       ├── wingman.nix
+│   │       └── sushant.nix
 │   ├── modules/
 │   │   ├── git.nix        # Git & gh CLI configuration
 │   │   ├── zsh.nix        # Zsh shell configuration
@@ -134,28 +138,28 @@ Edit these files directly to customize tool behavior.
 To update to the latest packages:
 ```bash
 nix flake update
-home-manager switch --flake .#fedora  # or .#work-mac
+home-manager switch --flake .#wingman  # or .#sushant
 ```
 
 ## Rebuilding after changes
 
 After modifying any configuration files:
 ```bash
-home-manager switch --flake .#fedora  # or .#work-mac
+home-manager switch --flake .#wingman  # or .#sushant
 ```
 
 ## Switching between machines
 
 If you want to maintain separate machines:
 
-**On Fedora:**
+**On wingman machine:**
 ```bash
-home-manager switch --flake .#fedora
+home-manager switch --flake .#wingman
 ```
 
-**On macOS:**
+**On sushant machine:**
 ```bash
-home-manager switch --flake .#work-mac
+home-manager switch --flake .#sushant
 ```
 
 ## Troubleshooting

@@ -5,6 +5,9 @@
   lib,
   ...
 }:
+let
+  hostOverride = ./hosts + "/${hostSpec.hostname}.nix";
+in
 {
   imports = 
     [
@@ -14,6 +17,7 @@
       ../modules/alacritty.nix
       ../modules/tmux.nix
     ]
+    ++ lib.optional (builtins.pathExists hostOverride) hostOverride
     ++ (if hostSpec.system == "linux" then [ ./linux.nix ] else [ ./darwin.nix ])
     ++ (if hostSpec.isWork then [ ./work.nix ] else [ ]);
 

@@ -26,11 +26,19 @@ fi
 # Detect OS
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     SYSTEM="linux"
-    CONFIG="fedora"
-    echo -e "${YELLOW}Detected: Linux (Fedora)${NC}"
+    if [[ "$USER" == "wingman" ]]; then
+        CONFIG="wingman"
+    elif [[ "$USER" == "sushant" ]]; then
+        CONFIG="sushant"
+    else
+        echo -e "${RED}Unsupported Linux user: $USER${NC}"
+        echo "Use one of: wingman, sushant"
+        exit 1
+    fi
+    echo -e "${YELLOW}Detected: Linux profile '$CONFIG'${NC}"
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     SYSTEM="darwin"
-    CONFIG="work-mac"
+    CONFIG="sushant"
     echo -e "${YELLOW}Detected: macOS${NC}"
 else
     echo -e "${RED}Unsupported OS: $OSTYPE${NC}"
@@ -39,16 +47,8 @@ fi
 
 echo ""
 echo -e "${YELLOW}Before proceeding, please:${NC}"
-echo "1. Update your username in flake.nix (line with 'username = \"YOUR_USERNAME\"')"
-echo "2. Update your Git name and email in nix/modules/git.nix"
+echo "1. Update your Git name and email in nix/modules/git.nix"
 echo ""
-
-read -p "Have you updated flake.nix with your username? (y/n) " -n 1 -r
-echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo "Please update flake.nix first, then run this script again."
-    exit 1
-fi
 
 read -p "Have you updated nix/modules/git.nix with your Git config? (y/n) " -n 1 -r
 echo
