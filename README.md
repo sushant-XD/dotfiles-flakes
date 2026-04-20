@@ -1,8 +1,9 @@
 # Dotfiles - Home Manager Configuration
 
-Minimal Home Manager setup for two Linux personal computers:
+Minimal Home Manager setup for two Linux personal computers and one macOS work machine:
 - wingman
 - sushant
+- work-mac
 
 ## Quick Start
 
@@ -30,11 +31,16 @@ Notes:
 ```bash
 nix run github:nix-community/home-manager/master -- switch -b backup --flake .#sushant
 ```
+- For the work Mac, use:
+```bash
+nix run github:nix-community/home-manager/master -- switch -b backup --flake .#work-mac
+```
 
 ## Profiles
 
 - `wingman` (primary Linux machine)
 - `sushant` (second Linux machine)
+- `work-mac` (macOS work machine)
 - `fedora` (compat alias -> `wingman`)
 
 ## Per-machine overrides

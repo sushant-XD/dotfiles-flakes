@@ -65,9 +65,18 @@
           isWork = false;
         };
 
+        # Work Mac
+        # Usage: nix run github:nix-community/home-manager/master -- switch -b backup --flake .#work-mac
+        work-mac = mkHomeConfig {
+          system = "aarch64-darwin";
+          hostname = "work-mac";
+          username = "sushant.dhakal";
+          isWork = true;
+        };
+
         # Compatibility aliases
         fedora = self.homeConfigurations.wingman;
-        work-mac = self.homeConfigurations.sushant;
+        work-mac-linux = self.homeConfigurations.sushant;
       };
 
       # Apps for easy activation
@@ -80,12 +89,17 @@
           type = "app";
           program = "${self.homeConfigurations.sushant.activationPackage}/activate";
         };
+        aarch64-darwin.work-mac = {
+          type = "app";
+          program = "${self.homeConfigurations.work-mac.activationPackage}/activate";
+        };
       };
 
       # Default packages for direct use
       packages = {
         x86_64-linux.wingman = self.homeConfigurations.wingman.activationPackage;
         x86_64-linux.sushant = self.homeConfigurations.sushant.activationPackage;
+        aarch64-darwin.work-mac = self.homeConfigurations.work-mac.activationPackage;
       };
     };
 }
