@@ -116,7 +116,7 @@
         };
       };
 
-      # Default packages for direct use
+      # Default packages for direct use and build with nix rather than home manager
       packages = {
         x86_64-linux.wingman = self.homeConfigurations.wingman.activationPackage;
         x86_64-linux.sushant = self.homeConfigurations.sushant.activationPackage;

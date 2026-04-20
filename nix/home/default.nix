@@ -27,6 +27,7 @@ in
   home.packages = with pkgs; [
     # CLI tools
     bat
+    direnv
     fd
     fzf
     htop
@@ -40,6 +41,7 @@ in
     wget
     yq
     # Development
+    bazelisk
     cmake
     git
     python312
@@ -49,6 +51,11 @@ in
 
   programs = {
     home-manager.enable = true;
+
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
   };
 }
 

@@ -1,45 +1,21 @@
 {
-  config,
   pkgs,
-  lib,
+  repoRoot,
   ...
 }:
 {
-  programs = {
-    zsh = {
-      enable = true;
-      autocd = true;
-      autosuggestion.enable = true;
-      syntaxHighlighting.enable = true;
-      
-      shellAliases = {
-        ll = "ls -lh";
-        la = "ls -lah";
-        l = "ls -l";
-        ".." = "cd ..";
-        "..." = "cd ../..";
-        v = "vim";
-        n = "nvim";
-      };
+  home.packages = with pkgs; [
+    zsh
+    direnv
+    fzf
+  ];
 
-      oh-my-zsh = {
-        enable = true;
-        theme = "robbyrussell";
-        plugins = [
-          "git"
-          "tmux"
-          "fzf"
-          "rust"
-        ];
-      };
-    };
-
-    fzf.enable = true;
+  # Traditional zsh setup: repo-managed files, symlinked into home.
+  home.file.".config/zsh" = {
+    source = repoRoot + "/.config/zsh";
   };
 
-  # Optional: Symlink zsh config files from dotfiles if they exist
-  # Add your .zshrc, .zsh_profile, or other zsh configs in .config/zsh/
-  # home.file.".zshrc" = {
-  #   source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/zsh/.zshrc";
-  # };
+  home.file.".zshrc" = {
+    source = repoRoot + "/.config/zsh/.zshrc";
+  };
 }
