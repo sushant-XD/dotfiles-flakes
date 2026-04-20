@@ -21,7 +21,14 @@
       );
 
       # Helper to create home-manager configurations
-      mkHomeConfig = { system, hostname, username, isWork }:
+      mkHomeConfig =
+        {
+          system,
+          hostname,
+          username,
+          isWork,
+          repoRoot ? ./.,
+        }:
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs { inherit system; };
           extraSpecialArgs = {
@@ -29,6 +36,7 @@
             hostSpec = {
               inherit system isWork hostname;
             };
+            inherit repoRoot;
           };
           modules = [
             ./nix/common.nix

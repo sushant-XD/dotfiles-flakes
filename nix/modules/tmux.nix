@@ -1,5 +1,5 @@
 {
-  config,
+  repoRoot,
   ...
 }:
 {
@@ -14,6 +14,6 @@
 
   # Symlink tmux config from dotfiles
   home.file.".tmux.conf" = {
-    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/dotfiles/.config/tmux/.tmux.conf";
+    source = repoRoot + "/.config/tmux/.tmux.conf";
   };
 }

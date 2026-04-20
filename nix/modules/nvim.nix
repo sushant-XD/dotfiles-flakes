@@ -1,5 +1,5 @@
 {
-  config,
+  repoRoot,
   ...
 }:
 {
@@ -16,6 +16,6 @@
 
   # Symlink .config/nvim from dotfiles into home
   home.file.".config/nvim" = {
-    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/dotfiles/.config/nvim";
+    source = repoRoot + "/.config/nvim";
   };
 }

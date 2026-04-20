@@ -1,5 +1,6 @@
 {
-  config,
+  lib,
+  repoRoot,
   ...
 }:
 {
@@ -11,7 +12,9 @@
 
   # Symlink alacritty config from dotfiles if it exists
   # Create ~/.config/alacritty/alacritty.toml in the dotfiles repo to customize
-  home.file.".config/alacritty" = {
-    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/dotfiles/.config/alacritty";
+  home.file = lib.mkIf (builtins.pathExists (repoRoot + "/.config/alacritty")) {
+    ".config/alacritty" = {
+      source = repoRoot + "/.config/alacritty";
+    };
   };
 }
