@@ -74,6 +74,15 @@
           isWork = true;
         };
 
+        # Work Ubuntu
+        # Usage: nix run github:nix-community/home-manager/master -- switch -b backup --flake .#work-ubuntu
+        work-ubuntu = mkHomeConfig {
+          system = "x86_64-linux";
+          hostname = "work-ubuntu";
+          username = "sushant.dhakal";
+          isWork = true;
+        };
+
         # Compatibility aliases
         fedora = self.homeConfigurations.wingman;
         work-mac-linux = self.homeConfigurations.sushant;
@@ -89,6 +98,10 @@
           type = "app";
           program = "${self.homeConfigurations.sushant.activationPackage}/activate";
         };
+        x86_64-linux.work-ubuntu = {
+          type = "app";
+          program = "${self.homeConfigurations.work-ubuntu.activationPackage}/activate";
+        };
         aarch64-darwin.work-mac = {
           type = "app";
           program = "${self.homeConfigurations.work-mac.activationPackage}/activate";
@@ -99,6 +112,7 @@
       packages = {
         x86_64-linux.wingman = self.homeConfigurations.wingman.activationPackage;
         x86_64-linux.sushant = self.homeConfigurations.sushant.activationPackage;
+        x86_64-linux.work-ubuntu = self.homeConfigurations.work-ubuntu.activationPackage;
         aarch64-darwin.work-mac = self.homeConfigurations.work-mac.activationPackage;
       };
     };
